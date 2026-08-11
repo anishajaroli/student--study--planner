@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySync | Student Study Planner</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background: #f6f4ff;
+            color: #252238;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #6c63ff, #9b5de5, #f15bb5);
+            color: white;
+            padding: 25px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 45px 7% 25px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 span {
+            color: #7654e8;
+        }
+
+        .hero p {
+            max-width: 750px;
+            color: #666;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            margin-top: 25px;
+            background: #fff0a8;
+            border-left: 7px solid #ffca3a;
+            padding: 18px 22px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px #00000012;
+        }
+
+        .highlight strong {
+            color: #a45c00;
+        }
+
+        /* MAIN GRID */
+        .container {
+            width: 86%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            padding-bottom: 50px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px #0000000d;
+        }
+
+        .card h2 {
+            margin-bottom: 18px;
+        }
+
+        /* TASK INPUT */
+        .task-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .task-input input {
+            flex: 1;
+            padding: 13px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            background: #7654e8;
+            color: white;
+        }
+
+        .add-btn:hover {
+            background: #5c43c7;
+        }
+
+        /* TASKS */
+        .task {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8f7ff;
+            padding: 13px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .task input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .task.completed span {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .delete {
+            margin-left: auto;
+            background: #ffdddd;
+            color: #d33;
+            padding: 7px 10px;
+        }
+
+        /* PROGRESS */
+        .progress-box {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 14px;
+            background: #eee;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        #progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00c9a7, #6c63ff);
+            transition: 0.4s;
+        }
+
+        /* STICKY NOTES */
+        .notes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .sticky {
+            min-height: 150px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 4px 7px 12px #00000022;
+            transform: rotate(-1deg);
+            transition: 0.2s;
+        }
+
+        .sticky:hover {
+            transform: rotate(0deg) translateY(-5px);
+        }
+
+        .sticky:nth-child(1) {
+            background: #fff09c;
+        }
+
+        .sticky:nth-child(2) {
+            background: #b8f7e7;
+        }
+
+        .sticky:nth-child(3) {
+            background: #ffc6df;
+        }
+
+        .sticky:nth-child(4) {
+            background: #c9c2ff;
+        }
+
+        .sticky h3 {
+            margin-bottom: 10px;
+        }
+
+        .sticky p {
+            line-height: 1.5;
+            color: #444;
+        }
+
+        /* TIMER */
+        .timer {
+            text-align: center;
+        }
+
+        #time {
+            font-size: 55px;
+            font-weight: 800;
+            margin: 15px;
+            color: #7654e8;
+        }
+
+        .timer button {
+            background: #7654e8;
+            color: white;
+            margin: 5px;
+        }
+
+        .reset {
+            background: #ff6b6b !important;
+        }
+
+        /* MOTIVATION */
+        .motivation {
+            margin-top: 20px;
+            padding: 18px;
+            background: #e7f0ff;
+            border-radius: 15px;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #252238;
+            color: white;
+        }
+
+        /* MOBILE */
+        @media(max-width: 800px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .notes {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">✨ StudySync</div>
+    <div class="tagline">Plan smart. Focus better. Stress less.</div>
+</header>
+
+<section class="hero">
+
+    <h1>Your day. <span>Your goals.</span> Your progress.</h1>
+
+    <p>
+        Between classes, assignments, social media, deadlines and everyday
+        chaos, student life can get seriously busy. StudySync helps you
+        organize everything in one simple dashboard.
+    </p>
+
+    <div class="highlight">
+        💡 <strong>Today's Reminder:</strong>
+        You don't need to finish everything at once.
+        Focus on one important task at a time.
+    </div>
+
+</section>
+
+<div class="container">
+
+    <!-- LEFT SIDE -->
+    <div>
+
+        <div class="card">
+
+            <h2>📋 Today's Tasks</h2>
+
+            <div class="task-input">
+                <input type="text" id="taskInput"
+                       placeholder="Add a task... e.g. Complete Maths assignment">
+                <button class="add-btn" onclick="addTask()">+ Add</button>
+            </div>
+
+            <div id="taskList"></div>
+
+            <div class="progress-box">
+                <strong>Daily Progress</strong>
+
+                <div class="progress-bar">
+                    <div id="progress"></div>
+                </div>
+
+                <p id="progressText">0% completed</p>
+            </div>
+
+        </div>
+
+        <!-- STICKY NOTES -->
+
+        <div class="card" style="margin-top:25px;">
+
+            <h2>📌 Sticky Notes</h2>
+
+            <div class="notes">
+
+                <div class="sticky">
+                    <h3>🎯 Top Priority</h3>
+                    <p>
+                        Finish the most important assignment before
+                        scrolling through social media.
+                    </p>
+                </div>
+
+                <div class="sticky">
+                    <h3>🧠 Study Hack</h3>
+                    <p>
+                        Try studying for 25 minutes, then take a short break.
+                        Small sessions = better focus.
+                    </p>
+                </div>
+
+                <div class="sticky">
+                    <h3>⚡ Don't Forget</h3>
+                    <p>
+                        Revise today's class notes before starting tomorrow's
+                        new topic.
+                    </p>
+                </div>
+
+                <div class="sticky">
+                    <h3>💜 Reminder</h3>
+                    <p>
+                        Progress > perfection. Even 30 minutes of focused
+                        study counts.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+
+    <div>
+
+        <div class="card timer">
+
+            <h2>⏱️ Focus Timer</h2>
+
+            <p>25 minutes of focus. No distractions.</p>
+
+            <div id="time">25:00</div>
+
+            <button onclick="startTimer()">Start</button>
+            <button onclick="pauseTimer()">Pause</button>
+            <button class="reset" onclick="resetTimer()">Reset</button>
+
+        </div>
+
+
+        <div class="card motivation">
+
+            <h3>🚀 Gen-Z Study Rule</h3>
+
+            <p>
+                Your phone has 100 notifications.
+                Your assignment has ONE deadline.
+                Choose wisely. 😭
+            </p>
+
+        </div>
+
+
+        <div class="card" style="margin-top:20px;">
+
+            <h3>🌟 Today's Focus</h3>
+
+            <br>
+
+            <p>📚 Study</p>
+            <p>💻 Build skills</p>
+            <p>🧘 Take breaks</p>
+            <p>💧 Stay hydrated</p>
+            <p>😴 Get enough sleep</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    Made for busy students • StudySync © 2026
+</footer>
+
+
+<script>
+
+    /* TASK SYSTEM */
+
+    function addTask() {
+
+        let input = document.getElementById("taskInput");
+        let text = input.value.trim();
+
+        if (text === "") {
+            alert("Please enter a task!");
+            return;
+        }
+
+        let taskList = document.getElementById("taskList");
+
+        let task = document.createElement("div");
+        task.className = "task";
+
+        task.innerHTML = `
+            <input type="checkbox" onchange="updateProgress()">
+            <span>${text}</span>
+            <button class="delete" onclick="deleteTask(this)">✕</button>
+        `;
+
+        taskList.appendChild(task);
+
+        input.value = "";
+
+        updateProgress();
+    }
+
+
+    function deleteTask(button) {
+
+        button.parentElement.remove();
+
+        updateProgress();
+    }
+
+
+    function updateProgress() {
+
+        let tasks = document.querySelectorAll(".task");
+        let completed = document.querySelectorAll(".task input:checked");
+
+        tasks.forEach(task => {
+
+            let checkbox = task.querySelector("input");
+
+            if (checkbox.checked) {
+                task.classList.add("completed");
+            } else {
+                task.classList.remove("completed");
+            }
+
+        });
+
+        let percentage = tasks.length === 0
+            ? 0
+            : Math.round((completed.length / tasks.length) * 100);
+
+        document.getElementById("progress").style.width =
+            percentage + "%";
+
+        document.getElementById("progressText").innerText =
+            percentage + "% completed";
+    }
+
+
+    /* FOCUS TIMER */
+
+    let seconds = 25 * 60;
+    let timer = null;
+
+    function displayTime() {
+
+        let minutes = Math.floor(seconds / 60);
+        let secs = seconds % 60;
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        secs = secs < 10 ? "0" + secs : secs;
+
+        document.getElementById("time").innerText =
+            minutes + ":" + secs;
+    }
+
+
+    function startTimer() {
+
+        if (timer !== null) return;
+
+        timer = setInterval(() => {
+
+            if (seconds > 0) {
+
+                seconds--;
+                displayTime();
+
+            } else {
+
+                clearInterval(timer);
+                timer = null;
+
+                alert("🎉 Focus session complete! Take a short break.");
+            }
+
+        }, 1000);
+    }
+
+
+    function pauseTimer() {
+
+        clearInterval(timer);
+        timer = null;
+    }
+
+
+    function resetTimer() {
+
+        clearInterval(timer);
+        timer = null;
+
+        seconds = 25 * 60;
+
+        displayTime();
+    }
+
+</script>
+
+</body>
+</html>
